@@ -1,7 +1,6 @@
 const express = require('express')
 const app = express()
 const MongoClient = require('mongodb').MongoClient
-const PORT = 2121
 require('dotenv').config()
 
 
@@ -9,7 +8,7 @@ let db,
     dbConnectionStr = process.env.DB_STRING,
     dbName = 'todo'
 
-MongoClient.connect(dbConnectionStr, { useUnifiedTopology: true })
+MongoClient.connect(dbConnectionStr)
     .then(client => {
         console.log(`Connected to ${dbName} Database`)
         db = client.db(dbName)
@@ -25,14 +24,6 @@ app.get('/',async (request, response)=>{
     const todoItems = await db.collection('todos').find().toArray()
     const itemsLeft = await db.collection('todos').countDocuments({completed: false})
     response.render('index.ejs', { items: todoItems, left: itemsLeft })
-    // db.collection('todos').find().toArray()
-    // .then(data => {
-    //     db.collection('todos').countDocuments({completed: false})
-    //     .then(itemsLeft => {
-    //         response.render('index.ejs', { items: data, left: itemsLeft })
-    //     })
-    // })
-    // .catch(error => console.error(error))
 })
 
 app.post('/addTodo', (request, response) => {
@@ -88,6 +79,7 @@ app.delete('/deleteItem', (request, response) => {
 
 })
 
+const PORT = 3000
 app.listen(process.env.PORT || PORT, ()=>{
     console.log(`Server running on port ${PORT}`)
 })
