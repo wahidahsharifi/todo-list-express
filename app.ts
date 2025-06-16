@@ -2,7 +2,6 @@ import express from 'express';
 import connectDB from './config/db';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import path from 'path';
 import { patchSendFileRoot } from './config/patchSendFileRoot.js';
 
 const app = express()
