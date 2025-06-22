@@ -2,7 +2,9 @@ import express from 'express';
 import connectDB from './config/db';
 import morgan from 'morgan';
 import dotenv from 'dotenv';
-import { patchSendFileRoot } from './config/patchSendFileRoot.js';
+import indexRoutes from './routes/index.ts';
+import todoRoutes from './routes/todo.ts'
+import path from 'path';
 
 const app = express()
 
@@ -10,25 +12,19 @@ const app = express()
 app.use(express.urlencoded({ extended: false }))
 app.use(express.json())
 
-// Patch res.sendFile to use views as root by default
-patchSendFileRoot(app);
-
 // load config
 dotenv.config({ path: './config/config.env' })
-
-// body Parser
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json())
 
 // connecting the DB
 connectDB();
 
 // routes
-import indexRoutes from './routes/index.js';
 app.use('/', indexRoutes)
+app.use('/todo', todoRoutes)
 
 // Serve static files from the public directory
-app.use(express.static('public'))
+app.use(express.static(path.join(process.cwd(), 'public')));
+app.use(express.static(path.join(process.cwd(), 'views')));
 
 // logging more stuff if in development mode with morgan
 if(process.env.NODE_ENV == 'development') {

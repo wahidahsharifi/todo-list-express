@@ -5,7 +5,7 @@ class TodoApp {
 
     async getNotes() {
         try {
-            const res = await fetch('/notes');
+            const res = await fetch('/todo');
             const data = await res.json();
             return data;
         } catch (err) {
@@ -57,7 +57,7 @@ class TodoApp {
 
     async noteCompletion(element) {
         try {
-            const res = await fetch('/completion', {
+            const res = await fetch('/todo/completion', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
