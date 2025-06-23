@@ -5,7 +5,7 @@ import { validateTodoInput } from '../validators/todoValidator';
 export default {
     sendAllTodos: async (req: Request, res: Response) => {
         try {
-            const todos = await Todo.find({}).lean();
+            const todos = await Todo.find();
             res.json(todos)
         } catch (err) {
             console.error(err)
