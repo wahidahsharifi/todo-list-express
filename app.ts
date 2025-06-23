@@ -1,22 +1,15 @@
 import express from 'express';
 import connectDB from './config/db';
-import morgan from 'morgan';
 import dotenv from 'dotenv';
 import indexRoutes from './routes/index.ts';
 import todoRoutes from './routes/todo.ts'
 import path from 'path';
+import logger from './middlewares/logger.js'
 
 const app = express()
 
 // logging more stuff if in development mode with morgan
-if(process.env.NODE_ENV == 'development') {
-    app.use(morgan('dev', {
-      skip: (req) =>
-        req.url.startsWith('/assets/') ||
-        req.url.startsWith('/css/') ||
-        req.url.startsWith('/js/')
-    }))
-}
+app.use(logger())
 
 // load config
 dotenv.config({ path: './config/config.env' })
