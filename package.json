@@ -1,7 +1,7 @@
 {
-  "name": "todo-list-express",
+  "name": "Wtodo",
   "version": "1.0.0",
-  "description": "this app helps you store and share moments",
+  "description": "WTodo is a CRUD note taking app by @wahidahsharifi",
   "main": "app.js",
   "module": "index.ts",
   "type": "module",
@@ -23,13 +23,13 @@
   "devDependencies": {
     "@types/bun": "latest",
     "@types/express": "^5.0.3",
+    "@types/morgan": "^1.9.10",
     "cross-env": "^7.0.3"
   },
   "peerDependencies": {
     "typescript": "^5"
   },
   "dependencies": {
-    "@types/morgan": "^1.9.10",
     "dotenv": "^16.5.0",
     "express": "^5.1.0",
     "mongodb": "^6.17.0",

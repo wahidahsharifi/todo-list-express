@@ -8,12 +8,22 @@ import path from 'path';
 
 const app = express()
 
-// Body parser
-app.use(express.urlencoded({ extended: false }))
-app.use(express.json())
+// logging more stuff if in development mode with morgan
+if(process.env.NODE_ENV == 'development') {
+    app.use(morgan('dev', {
+      skip: (req) =>
+        req.url.startsWith('/assets/') ||
+        req.url.startsWith('/css/') ||
+        req.url.startsWith('/js/')
+    }))
+}
 
 // load config
 dotenv.config({ path: './config/config.env' })
+
+// Body parser
+app.use(express.urlencoded({ extended: false }))
+app.use(express.json())
 
 // connecting the DB
 connectDB();
@@ -25,11 +35,6 @@ app.use('/todo', todoRoutes)
 // Serve static files from the public directory
 app.use(express.static(path.join(process.cwd(), 'public')));
 app.use(express.static(path.join(process.cwd(), 'views')));
-
-// logging more stuff if in development mode with morgan
-if(process.env.NODE_ENV == 'development') {
-    app.use(morgan('dev'))
-}
 
 // making the app live
 const PORT = process.env.PORT || 3000

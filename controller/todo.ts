@@ -6,7 +6,6 @@ export default {
     sendAllTodos: async (req: Request, res: Response) => {
         try {
             const todos = await Todo.find({}).lean();
-            console.log('items sent')
             res.json(todos)
         } catch (err) {
             console.error(err)
@@ -20,18 +19,14 @@ export default {
         
         try {
             // Create and save the new todo
-            console.log(req.body)
             const todo = new Todo(req.body);
             await todo.save();
             res.status(201).json({ message: 'Todo created', todo });
         } catch (err) {
             res.status(500).json({ error: 'Database error', details: err });
         }
-    
-        console.log(req.body);
     },
     toggleCompletion: async (req: Request, res: Response) => {
-        console.log(req.body)
         try {
             const { id, state } = req.body;
             await Todo.findByIdAndUpdate(id, { completed: state });
